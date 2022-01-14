@@ -1,0 +1,38 @@
+version: '3.9'
+
+networks:
+  lorderbackend:
+    name: lorder-backend
+
+services:
+
+  mysql:
+    image: mysql:5.7.22
+    container_name: lorderdb
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "33306:3306"
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: lorder
+      MYSQL_USER: mysql
+      MYSQL_ROOT_PASSWORD: mysql
+    networks:
+      - lorderbackend
+
+  lorder:
+    container_name: lorderphp
+    build:
+      context: ./
+      dockerfile: docker/phpserver/Dockerfile
+    ports:
+      - "7777:80"
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - lorderbackend
+
+volumes:
+  myCodeVolume:
