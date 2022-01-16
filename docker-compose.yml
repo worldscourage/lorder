@@ -12,13 +12,15 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "33306:3306"
+      - "33306:${DB_PORT}"
     volumes:
       - ./docker/mysql:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: lorder
-      MYSQL_USER: mysql
-      MYSQL_ROOT_PASSWORD: mysql
+      TZ: 'Europe/Helsinki'
+      MYSQL_ROOT_PASSWORD: localhostrootpwd
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     networks:
       - lorderbackend
 
@@ -27,6 +29,8 @@ services:
     build:
       context: ./
       dockerfile: docker/phpserver/Dockerfile
+    env_file:
+      - .env
     ports:
       - "7777:80"
     volumes:
