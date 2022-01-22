@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -18,9 +19,10 @@ class OrderController extends Controller
         //
     }
 
-    public function getPage(Request $request)
+    public function create(Request $request)
     {
-        echo "qwer";
+        $user = User::find(1);
+        echo "qwer" . $user->email; exit;
     }
 
 }
