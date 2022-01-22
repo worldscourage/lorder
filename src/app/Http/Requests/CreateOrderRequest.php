@@ -13,6 +13,9 @@ use Illuminate\Http\JsonResponse;
  *
  * @property $products
  * @property string $country
+ * @property string $email
+ * @property string $invoiceFormat
+ * @property bool $sendEmail
  */
 class CreateOrderRequest extends FormRequest
 {
@@ -36,6 +39,9 @@ class CreateOrderRequest extends FormRequest
         return [
             'products' => 'required|json',
             'country' => 'required|exists:countries,id',
+            'invoiceFormat' => 'required|string',
+            'sendEmail' => 'bool',
+            'email' => 'exclude_if:sendEmail,0|required|email:rfc,dns',
         ];
     }
 
