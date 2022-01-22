@@ -16,6 +16,8 @@ class CreateVatsTable extends Migration
         Schema::create('vats', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->float('rate', 4, 3, true);
+            $table->string('type', 16)->default(\App\Models\Vat::TYPE_STD)->comment('vat type: std, reduced');
         });
     }
 
