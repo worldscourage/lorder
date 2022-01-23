@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->timestamps();
             $table->string('name', 64);
             $table->string('description', 256);
-            $table->unsignedBigInteger('product_type_id');
+            $table->unsignedBigInteger('product_type_id')->nullable(true)->comment('null means no special type');
             $table->foreign('product_type_id')->references('id')->on('product_types');
         });
     }

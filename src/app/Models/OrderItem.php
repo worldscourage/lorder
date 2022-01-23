@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class OrderItem
@@ -14,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $order_id
  * @property int $price_id
  * @property int $vat_id
+ *
+ * @property-read $order
  */
 class OrderItem extends Model
 {
@@ -23,4 +26,9 @@ class OrderItem extends Model
     protected $table = 'orders_items';
 
     public int $productId;
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class, 'order_id', 'id');
+    }
 }
