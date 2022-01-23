@@ -13,7 +13,7 @@ class CreateOrderPriceCountTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_price_count', function (Blueprint $table) {
+        Schema::create('orders_items', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('order_id')->nullable(false);
@@ -22,6 +22,8 @@ class CreateOrderPriceCountTable extends Migration
             $table->foreign('price_id')->references('id')->on('prices');
             $table->unsignedInteger('count')->nullable(false);
             $table->float('exchange_rate');
+            $table->unsignedBigInteger('vat_id')->nullable();
+            $table->foreign('vat_id')->references('id')->on('vats');
         });
     }
 
