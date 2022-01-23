@@ -30,11 +30,16 @@ class OrderCreatorTest extends TestCase
         $this->assertNotNull($p1->productType, 'product type not defined');
         $this->assertNotEmpty($p2->prices, 'no prices defined');
 
-        $dto = new OrderRequestDto("FI", [['cnt' => 2, 'id' => $p1->id], ['cnt' => 2, 'id' => $p2->id]]);
-        $creator = (new OrderCreator(User::find(1), $dto))->createOrder();
+        $dto = new OrderRequestDto("SE", [['cnt' => 2, 'id' => $p1->id], ['cnt' => 2, 'id' => $p2->id]]);
+        $creator = new OrderCreator(User::find(1), $dto);
+        $creator->createOrder();
         $order = $creator->getOrder();
 
         $this->assertEquals('EUR', $order->currency);
         $this->assertCount(2, $order->items);
+        $this->assertEquals(0.2, $order->items->first()->vat->rate);
+        $this->assertEquals(2*10+2*20, $order->getTotalCostNet()->getAmount());
+        $this->assertEquals(2*2+2*4, $order->getTotalCostVat()->getAmount());
+        $this->assertEquals(60+12, $order->getTotalCostGross()->getAmount());
     }
 }

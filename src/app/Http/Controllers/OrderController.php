@@ -28,6 +28,7 @@ class OrderController extends Controller
         $dto = new OrderRequestDto($request->country, json_decode($request->products, 1));
         $orderCreator = new OrderCreator($user, $dto);
         $orderCreator->createOrder();
+        $orderCreator->getOrder()->push();
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Utils\Money;
 use Database\Factories\PriceFactory;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,5 +28,10 @@ class Price extends Model
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
+    public function getPrice()
+    {
+        return new Money($this->currency, $this->price);
     }
 }

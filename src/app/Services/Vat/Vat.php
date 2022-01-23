@@ -8,13 +8,14 @@ use App\Models\Vat as Rate;
 
 class Vat
 {
-    public function getRate(Country $country, ?string $productType, ?\DateTime $dateTime = null): Rate
+    public function getRate(Country $country, ?int $productTypeId, ?\DateTime $dateTime = null): Rate
     {
+        // todo cache
         $rate = null;
-        if ($productType === null) {
+        if ($productTypeId === null) {
             $rate = $this->getStandardRate($country);
         } else {
-            $rate = $this->getRateForProductType($country, $productType);
+            $rate = $this->getRateForProductType($country, $productTypeId);
         }
         if ($rate === null) {
             $rate = $this->exceptionalVatRate($country);

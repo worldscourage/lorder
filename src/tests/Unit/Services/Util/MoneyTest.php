@@ -19,4 +19,10 @@ class MoneyTest extends TestCase
         $this->assertEquals(3, $a->addFrom($b)->getAmount());
         $this->assertEquals('EUR', $a->getCurrency());
     }
+
+    public function testTimes()
+    {
+        $b = new Money('EUR', 2);
+        $this->assertEquals(6, $b->times(3)->getAmount());
+    }
 }

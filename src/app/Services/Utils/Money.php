@@ -24,6 +24,12 @@ class Money
         return $this;
     }
 
+    public function times(float $times): self
+    {
+        $this->amount *= $times;
+        return $this;
+    }
+
     /**
      * @return string
      */
@@ -39,6 +45,5 @@ class Money
     {
         return $this->amount;
     }
-
 
 }
