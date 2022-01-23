@@ -20,8 +20,7 @@ class CreateProductTypeToVatTypesTable extends Migration
             $table->foreign('country_id')->references('id')->on('countries');
             $table->unsignedBigInteger('product_type_id');
             $table->foreign('product_type_id')->references('id')->on('product_types');
-            $table->unsignedBigInteger('vat_id');
-            $table->foreign('vat_id')->references('id')->on('vats');
+            $table->string('vat_type', 16);
         });
     }
 

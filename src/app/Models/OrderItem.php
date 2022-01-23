@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $vat_id
  *
  * @property-read $order
+ * @property-read $price
  */
 class OrderItem extends Model
 {
@@ -30,5 +31,10 @@ class OrderItem extends Model
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class, 'order_id', 'id');
+    }
+
+    public function price(): BelongsTo
+    {
+        return $this->belongsTo(Price::class, 'price_id', 'id');
     }
 }

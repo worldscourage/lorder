@@ -4,6 +4,7 @@ namespace App\Services\Order;
 
 use App\Models\Country;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\User;
@@ -38,6 +39,9 @@ class OrderCreator
     {
         foreach ($this->requestDto->getProducts() as $productRequest) {
             $productPrice = Price::where('product_id', '=', $productRequest->productId)->firstOrFail(); //todo make DB call optimal by mass call
+            $item = new OrderItem();
+            $item->price()->associate($productPrice);
+            $this->order->items->add($item);
         }
     }
 

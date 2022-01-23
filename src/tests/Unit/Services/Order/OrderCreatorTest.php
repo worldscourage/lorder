@@ -27,7 +27,6 @@ class OrderCreatorTest extends TestCase
         $p2 = Product::factory()
             ->has(Price::factory(['price' => 20]), 'prices')
             ->create();
-
         $this->assertNotNull($p1->productType, 'product type not defined');
         $this->assertNotEmpty($p2->prices, 'no prices defined');
 
@@ -36,5 +35,6 @@ class OrderCreatorTest extends TestCase
         $order = $creator->getOrder();
 
         $this->assertEquals('EUR', $order->currency);
+        $this->assertCount(2, $order->items);
     }
 }

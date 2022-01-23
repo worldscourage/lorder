@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class ProductType
  * @package App\Models
  *
+ * @property int $id
  * @property string $name
  * @method static ProductTypeFactory factory(...$parameters)
  *
