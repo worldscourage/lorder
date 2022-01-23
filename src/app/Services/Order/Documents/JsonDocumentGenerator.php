@@ -2,8 +2,6 @@
 
 namespace App\Services\Order\Documents;
 
-use App\Models\Order;
-
 class JsonDocumentGenerator extends AbstractDocumentGenerator
 {
     public function generate(): string
