@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateOrderRequest;
 use App\Models\User;
+use App\Services\Order\Documents\DocumentFactory;
 use App\Services\Order\OrderCreator;
 use App\Services\Order\OrderRequestDto;
 use Illuminate\Http\Request;
@@ -28,7 +29,10 @@ class OrderController extends Controller
         $dto = new OrderRequestDto($request->country, json_decode($request->products, 1));
         $orderCreator = new OrderCreator($user, $dto);
         $orderCreator->createOrder();
-        $orderCreator->getOrder()->push();
+        $order = $orderCreator->getOrder();
+        $documentGenerator = (new DocumentFactory())->getOrderDocumentGenerator($request->invoiceFormat, $order);
+        $document = $documentGenerator->generate();
+        return \response($document, 200);
     }
 
 }

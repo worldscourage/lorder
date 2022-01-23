@@ -35,19 +35,28 @@ class OrderCreator
         $order->user_id = $this->user->id;
         $this->country = Country::find($this->requestDto->getCountry());
         $order->currency = $this->country->currency;
+        $order->save();
         $this->order = $order;
         $this->processItems();
+        $order->push();
         return $this;
     }
 
     protected function processItems()
     {
         foreach ($this->requestDto->getProducts() as $productRequest) {
+            /** @var Price $productPrice */
             $productPrice = Price::where('product_id', '=', $productRequest->productId)->firstOrFail(); //todo make DB call optimal by mass call
             $item = new OrderItem();
             $item->count = $productRequest->count;
+            if ($this->order->currency == $productPrice->currency) {
+                $item->exchange_rate = 1;
+            } else {
+                throw new \Exception("currency difference not supported");
+            }
             $item->price()->associate($productPrice);
             $this->applyVat($item);
+            $item->order_id = $this->order->id;
             $this->order->items->add($item);
         }
     }

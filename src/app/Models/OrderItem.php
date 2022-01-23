@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $order_id
  * @property int $price_id
  * @property int $vat_id
+ * @property float $exchange_rate
  *
  * @property-read Order $order
  * @property-read Price $price

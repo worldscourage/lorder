@@ -6,16 +6,19 @@ use App\Services\Utils\Money;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Order
  * @package App\Models
  *
+ * @property int $id
  * @property int $user_id
  * @property string $currency
  *
  * @property-read Collection|OrderItem[] $items
+ * @property-read User $user;
  */
 class Order extends Model
 {
@@ -68,5 +71,10 @@ class Order extends Model
         }
         $this->totalCostGross = (clone $this->totalCostNet)->addFrom($this->totalCostVat);
         return $this;
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Services\Utils;
 
-class Money
+use Illuminate\Contracts\Support\Arrayable;
+
+class Money implements Arrayable
 {
     protected string $currency;
     protected float $amount = 0;
@@ -46,4 +48,11 @@ class Money
         return $this->amount;
     }
 
+    public function toArray()
+    {
+        return [
+            'currency' => $this->getCurrency(),
+            'amount' => $this->getAmount(),
+        ];
+    }
 }

@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Country;
+use App\Models\Price;
+use App\Models\Product;
 use App\Models\ProductType;
 use App\Models\User;
 use App\Models\Vat as VatRate;
@@ -20,6 +22,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create();
         ProductType::factory(['name' => 'Food'])->create();
         $this->createCountries();
+        $this->createProducts();
     }
 
     protected function createCountries()
@@ -28,5 +31,12 @@ class DatabaseSeeder extends Seeder
         Country::factory(['id' => 'SE', 'name' => 'Sweden', 'currency' => 'EUR'])->create();
         VatRate::factory(['country_id' => 'FI', 'type' => 'STD', 'rate' => 0.24])->create();
         VatRate::factory(['country_id' => 'SE', 'type' => 'STD', 'rate' => 0.20])->create();
+    }
+
+    protected function createProducts()
+    {
+        Product::factory()
+            ->has(Price::factory(), 'prices')
+            ->create();
     }
 }
