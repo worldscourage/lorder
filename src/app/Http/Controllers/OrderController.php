@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateOrderRequest;
 use App\Models\User;
 use App\Services\Order\Documents\DocumentFactory;
+use App\Services\Order\Mailing\Mailing;
 use App\Services\Order\OrderCreator;
 use App\Services\Order\OrderRequestDto;
 use Illuminate\Http\Request;
@@ -32,6 +33,10 @@ class OrderController extends Controller
         $order = $orderCreator->getOrder();
         $documentGenerator = (new DocumentFactory())->getOrderDocumentGenerator($request->invoiceFormat, $order);
         $document = $documentGenerator->generate();
+        if ($request->sendEmail) {
+            $mailing = new Mailing($request->email, $document);
+            $mailing->dispatch();
+        }
         return \response($document, 200);
     }
 
